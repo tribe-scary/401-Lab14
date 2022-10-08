@@ -9,7 +9,7 @@ const chance = new Chance();
 socket.emit('JOIN', 'chatroom');
 
 let date = new Date();
-let time = date.toTimeString();
+// let time = date.toTimeString();
 
 socket.on('connect', () => {
   console.log(socket.id);
@@ -26,11 +26,11 @@ socket.on('connect', () => {
 });
 
 socket.on('MESSAGE', (payload) => {
-  console.log('+++++++++++++++', payload);
+  console.log('=======================', payload);
 });
 
 
 socket.on('disconnect', () => {
-  console.log('Your connection has been disconnected!', socket.id);
+  console.log('The server has been disconnected!', socket.id);
 });
 

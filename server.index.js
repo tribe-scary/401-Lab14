@@ -9,14 +9,8 @@ const server = new Server(PORT);
 // namespace
 const chatroom = server.of('/chatroom');
 
-
-server.on('connection', (socket) => {
-  console.log('Socket connected to event server', socket.id);
-
-});
-
 chatroom.on('connection', (socket) => {
-  console.log('Connected to the CAPS namespace', socket.id);
+  console.log('Connected to the CHATROOM namespace', socket.id);
 
   socket.on('JOIN', (room) => {
     console.log(`You have entered the ${room} room`);
