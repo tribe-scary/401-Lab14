@@ -21,7 +21,7 @@ socket.on('connect', () => {
       body: chance.sentence(),
     };
     socket.emit('MESSAGE', message);
-  }, 8000);
+  }, 9000);
 
 });
 
