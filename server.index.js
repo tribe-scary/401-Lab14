@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3002;
 const server = new Server(PORT);
 
 // namespace
-const caps = server.of('/caps');
+const chatroom = server.of('/chatroom');
 
 
 server.on('connection', (socket) => {
@@ -15,26 +15,16 @@ server.on('connection', (socket) => {
 
 });
 
-caps.on('connection', (socket) => {
+chatroom.on('connection', (socket) => {
   console.log('Connected to the CAPS namespace', socket.id);
 
   socket.on('JOIN', (room) => {
     console.log(`You have entered the ${room} room`);
   });
 
-  socket.on('PICKUP', (payload) => {
-    logEvent('PICKUP', payload);
-    caps.emit('PICKUP', payload);
-  });
-
-  socket.on('TRANSIT', (payload) => {
-    logEvent('TRANSIT', payload);
-    caps.emit('TRANSIT', payload);
-  });
-
-  socket.on('DELIVERY', (payload) => {
-    logEvent('DELIVERY', payload);
-    caps.emit('DELIVERY', payload);
+  socket.on('MESSAGE', (payload) => {
+    logEvent('MESSAGE', payload);
+    chatroom.emit('MESSAGE', payload);
   });
 
 });

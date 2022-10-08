@@ -1,23 +1,36 @@
 'use strict';
 
 const { io } = require('socket.io-client');
+const socket = io('http://localhost:3002/chatroom');
 
-const socket = io('http://localhost:3002/caps');
+const Chance = require('chance');
+const chance = new Chance();
 
+socket.emit('JOIN', 'chatroom');
 
-const createTransitOrder = require('./transitOrder');
-const transitOrder = createTransitOrder(socket);
+let date = new Date();
+let time = date.toTimeString();
 
-const createDeliveryOrder = require('./deliverOrder');
-const deliverOrder = createDeliveryOrder(socket);
+socket.on('connect', () => {
+  console.log(socket.id);
 
-socket.emit('JOIN', 'driver');
+  setInterval(() => {
+    const message = {
+      // time: time,
+      name: 'Stephen',
+      body: chance.sentence(),
+    };
+    socket.emit('MESSAGE', message);
+  }, 8000);
 
-socket.on('PICKUP', transitOrder);
+});
 
-socket.on('TRANSIT', deliverOrder);
+socket.on('MESSAGE', (payload) => {
+  console.log('+++++++++++++++', payload);
+});
+
 
 socket.on('disconnect', () => {
-  console.log(socket.id);
+  console.log('Your connection has been disconnected!', socket.id);
 });
 
